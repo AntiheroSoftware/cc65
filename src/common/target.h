@@ -73,6 +73,7 @@ typedef enum {
     TGT_ATMOS,
     TGT_NES,
     TGT_SUPERVISION,
+    TGT_SNES,
     TGT_LYNX,
     TGT_SIM6502,
     TGT_SIM65C02,

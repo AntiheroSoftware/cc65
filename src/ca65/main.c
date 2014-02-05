@@ -287,6 +287,10 @@ static void SetSys (const char* Sys)
             NewSymbol ("__SUPERVISION__", 1);
             break;
 
+        case TGT_SNES:
+            NewSymbol ("__SNES__", 1);
+            break;
+
         case TGT_LYNX:
             NewSymbol ("__LYNX__", 1);
             break;

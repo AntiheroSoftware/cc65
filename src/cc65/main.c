@@ -242,6 +242,10 @@ static void SetSys (const char* Sys)
             DefineNumericMacro ("__SUPERVISION__", 1);
             break;
 
+        case TGT_SNES:
+             DefineNumericMacro ("__SNES__", 1);
+             break;
+
         case TGT_LYNX:
             DefineNumericMacro ("__LYNX__", 1);
             break;
@@ -255,7 +259,7 @@ static void SetSys (const char* Sys)
             break;
 
         default:
-            AbEnd ("Unknown target system type %d", Target);
+            AbEnd ("Unknown target system type %d %s", Target, Sys);
     }
 
     /* Initialize the translation tables for the target system */
