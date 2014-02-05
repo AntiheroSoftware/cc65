@@ -7,6 +7,8 @@ CBMS = c128   \
        plus4  \
        vic20
 
+USE_65816 = snes
+
 GEOS = geos-apple \
        geos-cbm
 
@@ -19,6 +21,7 @@ TARGETS = apple2    \
           $(GEOS)   \
           lynx      \
           nes       \
+          snes      \
           sim6502   \
           sim65c02  \
           supervision
@@ -142,16 +145,20 @@ ifeq ($(TARGET),$(filter $(TARGET),$(GEOS)))
   SRCDIRS += $(addprefix geos-common/,$(GEOSDIRS))
 endif
 
-SRCDIRS += common   \
-           conio    \
-           dbg      \
-           em       \
-           joystick \
-           mouse    \
-           runtime  \
-           serial   \
-           tgi      \
-           zlib
+ifeq ($(TARGET),$(filter $(TARGET),$(USE_65816)))
+  # put snes specific source dir here
+else
+  SRCDIRS += common   \
+             conio    \
+             dbg      \
+             em       \
+             joystick \
+             mouse    \
+             runtime  \
+             serial   \
+             tgi      \
+             zlib
+endif
 
 vpath %.s $(SRCDIRS)
 vpath %.c $(SRCDIRS)
