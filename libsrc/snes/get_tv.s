@@ -1,9 +1,11 @@
 ;
-; 2014-02-05 lintbe (jfdusar@gmail.com)
+; 2014-02-05 lintbe/AntiheroSoftware <jfdusar@gmail.com>
 ;
 ; unsigned char get_tv (void);
 ; /* Return the video mode the machine is using */
 ;
+
+        .setcpu         "65816"
 
         .include        "snes.inc"
         .include        "get_tv.inc"

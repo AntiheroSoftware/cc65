@@ -4,14 +4,13 @@
 ; void waitvblank(void);
 ;
 
-.include "snes.inc"
+        .setcpu     "65816"
 
-.export _waitvblank
-.proc   _waitvblank
+        .include    "snes.inc"
 
-;wait:   lda     PPU_STATUS
-;        bpl     wait
-;        rts
+        .export     _waitvblank
+
+.proc       _waitvblank
 
 	    sep		#$20
 	    .a8
