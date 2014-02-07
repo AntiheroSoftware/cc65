@@ -95,4 +95,6 @@ initSnesCPU:
     stz     $420C   ; Horizontal DMA (HDMA) enable (bits 0-7)
     stz     $420D   ; Access cycle designation (slow/fast rom)
 
+    rts
+
 .endproc

@@ -19,28 +19,28 @@
         .include        "zeropage.inc"
         .include        "snes.inc"
 
-.segment "CODE"
+.segment "STARTUP"
 
 start:
     sei                           ; Disabled interrupts
-	clc                           ; clear carry to switch to native mode
+    clc                           ; clear carry to switch to native mode
     xce                           ; Exchange carry & emulation bit. Now in native mode (full 65816)
     rep     #$18                  ; Binary mode (decimal mode off), X/Y 16 bit
-	.I16
+    .I16
     ldx     #$1FFF                ; set stack to $1FFF
     txs
 
-	rep 	#$30
-	.A16
-	.A16
+    rep     #$30
+    .A16
+    .I16
 
     ; TODO
-	; Init data used for heap
-	; see heap definition below
-	;stz	___heap_top
-	;stz	___mem_start
+    ; Init data used for heap
+    ; see heap definition below
+    ;stz    ___heap_top
+    ;stz    ___mem_start
 
-    jsr   	>_preInit
+    jsr     _preInit
 
     jsr     initSnes
 
@@ -50,8 +50,16 @@ start:
     .A16
     .I16
 
-    jsr   	>_main
+; Hot fix for calling main routine that was generated with C compiler
+; that don't really support 65816 and that is in 6502 instruction mode
+    sep #$30
+    .A8
+
+    jsr     _main
     brk
+	
+; fix for bad 65816 brk add 1 byte
+    .byte $00
 
 ;******************************************************************************
 ;*** IRQ, NMI and DIRQ handling routine                                     ***
@@ -105,22 +113,22 @@ dirq:
 .segment "ROMINFO"
 
 MAKER_CODE:         .byte   "FF"
-GAME_CODE:		    .byte   "SMWJ"
-FIXED_VALUE0:		.byte	$00, $00, $00, $00, $00, $00, $00
-EXPANSION_RAM_SIZE:	.byte	$00
-SPECIAL_VERSION:	.byte	$00
-CARTRIDGE_TYPE_SUB:	.byte	$00
-GAME_TITLE:		    .byte   "GAME TITLE          !"
-				            ;012345678901234567890;
-MAP_MODE:           .byte	$20
-CARTRIDGE_SIZE:		.byte	$00
-ROM_SIZE:           .byte	$08
-RAM_SIZE:           .byte	$00
-DESTINATION_CODE:	.byte	$00
-FIXED_VALUE1:		.byte	$33
-MASK_ROM_VERSION:	.byte	$00
-COMPLEMENT_CHECK:	.byte	$00, $00
-CHEKSUM:            .byte	$00, $00
+GAME_CODE:          .byte   "SMWJ"
+FIXED_VALUE0:       .byte   $00, $00, $00, $00, $00, $00, $00
+EXPANSION_RAM_SIZE: .byte   $00
+SPECIAL_VERSION:    .byte   $00
+CARTRIDGE_TYPE_SUB: .byte   $00
+GAME_TITLE:         .byte   "GAME TITLE          !"
+                            ;012345678901234567890;
+MAP_MODE:           .byte   $20
+CARTRIDGE_SIZE:	    .byte   $00
+ROM_SIZE:           .byte   $08
+RAM_SIZE:           .byte   $00
+DESTINATION_CODE:   .byte   $00
+FIXED_VALUE1:	    .byte   $33
+MASK_ROM_VERSION:   .byte   $00
+COMPLEMENT_CHECK:   .byte   $00, $00
+CHEKSUM:            .byte   $00, $00
 
 ;******************************************************************************
 ;*** SNES Interrupts and Reset vector                                       ***
