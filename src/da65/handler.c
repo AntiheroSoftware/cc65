@@ -34,6 +34,8 @@
 
 
 #include <stdarg.h>
+/* TODO remove */
+#include <stdio.h>
 
 /* common */
 #include "xsprintf.h"
@@ -312,14 +314,30 @@ void OH_AbsoluteY (const OpcDesc* D)
 
 void OH_AbsoluteLong (const OpcDesc* D attribute ((unused)))
 {
-    Error ("Not implemented");
+    /* Get the operands */
+    unsigned Addr = GetCodeWord (PC+1);
+    unsigned Bank = GetCodeByte (PC+3);
+
+    /* Generate a label in pass 1 */
+    GenerateLabel (D->Flags, Addr);
+
+    /* Output the line */
+    OneLine (D, "$%02X%04X", Bank, Addr);
 }
 
 
 
 void OH_AbsoluteLongX (const OpcDesc* D attribute ((unused)))
 {
-    Error ("Not implemented");
+    /* Get the operands */
+    unsigned Addr = GetCodeWord (PC+1);
+    unsigned Bank = GetCodeByte (PC+3);
+
+    /* Generate a label in pass 1 */
+    GenerateLabel (D->Flags, Addr);
+
+    /* Output the line */
+    OneLine (D, "$%02X%04X,x", Bank, Addr);
 }
 
 
@@ -343,7 +361,7 @@ void OH_Relative (const OpcDesc* D)
 
 void OH_RelativeLong (const OpcDesc* D attribute ((unused)))
 {
-    Error ("Not implemented");
+    Error ("Not implemented : OH_RelativeLong");
 }
 
 
@@ -485,35 +503,39 @@ void OH_ImmediateAbsoluteX (const OpcDesc* D)
 
 void OH_StackRelative (const OpcDesc* D attribute ((unused)))
 {
-    Error ("Not implemented");
+    /* Generate a label in pass 1 */
+    /* GenerateLabel (D->Flags, Addr); */
+
+    /* Output the line */
+    OneLine (D, "#$%02X,s", GetCodeByte (PC+1));
 }
 
 
 
 void OH_DirectIndirectLongX (const OpcDesc* D attribute ((unused)))
 {
-    Error ("Not implemented");
+    Error ("Not implemented : OH_DirectIndirectLongX");
 }
 
 
 
 void OH_StackRelativeIndirectY (const OpcDesc* D attribute ((unused)))
 {
-    Error ("Not implemented");
+    Error ("Not implemented : OH_StackRelativeIndirectY");
 }
 
 
 
 void OH_DirectIndirectLong (const OpcDesc* D attribute ((unused)))
 {
-    Error ("Not implemented");
+    Error ("Not implemented : OH_DirectIndirectLong");
 }
 
 
 
 void OH_DirectIndirectLongY (const OpcDesc* D attribute ((unused)))
 {
-    Error ("Not implemented");
+    Error ("Not implemented : OH_DirectIndirectLongY");
 }
 
 
